@@ -1,0 +1,76 @@
+Description: Fix FTBFS with RtAudio 6
+ Replace try/catch with checking for return codes
+Author: IOhannes m zmölnig
+Origin: Debian
+Forwarded: no
+Last-Update: 2023-09-09
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+Index: cubicsdr-0.2.7+dfsg/src/audio/AudioThread.cpp
+===================================================================
+--- cubicsdr-0.2.7+dfsg.orig/src/audio/AudioThread.cpp
++++ cubicsdr-0.2.7+dfsg/src/audio/AudioThread.cpp
+@@ -7,6 +7,7 @@
+ #include "CubicSDR.h"
+ #include "DemodulatorInstance.h"
+ #include <mutex>
++#include <iostream>
+ 
+ //50 ms
+ #define HEARTBEAT_CHECK_PERIOD_MICROS (50 * 1000) 
+@@ -378,7 +379,6 @@ void AudioThread::setupDevice(int device
+ 
+     opts.streamName = "CubicSDR Audio Output";
+ 
+-    try {
+         if (deviceController.find(outputDevice.load()) != deviceController.end()) {
+             //'this' is not the controller, so remove it from the bounded list:
+             //beware, we must take the controller mutex, because the audio callback may use the list of bounded
+@@ -418,8 +418,14 @@ void AudioThread::setupDevice(int device
+         else if (deviceController[parameters.deviceId] == this) {
+ 
+             //Attach callback
+-            dac.openStream(&parameters, nullptr, RTAUDIO_FLOAT32, sampleRate, &nBufferFrames, &audioCallback, (void *)this, &opts);
+-            dac.startStream();
++	    if(dac.openStream(&parameters, nullptr, RTAUDIO_FLOAT32, sampleRate, &nBufferFrames, &audioCallback, (void *)this, &opts)) {
++		    std::cerr << dac.getErrorText() << std::endl;
++		    return;
++	    }
++            if(dac.startStream()) {
++		    std::cerr << dac.getErrorText() << std::endl;
++		    return;
++	    }
+         }
+         else {
+             //we are a bound thread, add ourselves to the controller deviceController[parameters.deviceId].
+@@ -431,11 +437,6 @@ void AudioThread::setupDevice(int device
+         }
+         active = true;
+ 
+-    }
+-    catch (RtAudioError& e) {
+-        e.printMessage();
+-        return;
+-    }
+     if (deviceId != -1) {
+         outputDevice = deviceId;
+     }
+@@ -530,15 +531,12 @@ void AudioThread::run() {
+     }
+     else {
+         // 'this' is a controller thread:
+-        try {
+             if (dac.isStreamOpen()) {
+-                dac.stopStream(); 
++                if(dac.stopStream()) {
++		    std::cerr << dac.getErrorText() << std::endl;
++		}
+             }
+             dac.closeStream();
+-        }
+-        catch (RtAudioError& e) {
+-            e.printMessage();
+-        }
+     }
+ 
+     //    std::cout << "Audio thread done." << std::endl;

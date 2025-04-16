@@ -1,0 +1,25 @@
+Description: Disable some deb processing in CMakeLists.txt
+Author: Andreas Bombe <aeb@debian.org>
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1031,9 +1031,6 @@
+     set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,relro")
+     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro")
+ 
+-    CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/external/deb/deb_post.sh.in" 
+-            "${CMAKE_CURRENT_BINARY_DIR}/deb_post.sh" @ONLY IMMEDIATE)
+-
+     CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CubicSDR.desktop.in"
+             "${CMAKE_CURRENT_BINARY_DIR}/CubicSDR.desktop" @ONLY IMMEDIATE)
+ 
+@@ -1085,8 +1082,6 @@
+     INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/CubicSDR.desktop"
+             DESTINATION share/applications)
+         
+-    CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/external/deb/deb_post.sh.in" 
+-            "${CMAKE_CURRENT_BINARY_DIR}/deb_post.sh" @ONLY IMMEDIATE)
+     CONFIGURE_FILE(
+       "${PROJECT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+       "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
