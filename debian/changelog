@@ -1,5 +1,101 @@
-template-repository (1.0-1) unstable; urgency=medium
+cubicsdr (0.2.7+dfsg-4) unstable; urgency=medium
 
-  * Initial release
+  * Team upload.
+  * Fix FTBFS with RtAudio 6 (Closes: #1051567)
+    Thank you to IOhannes m zmoelnig for the patch.
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- tony mancill <tmancill@debian.org>  Tue, 09 Jul 2024 21:47:37 -0700
+
+cubicsdr (0.2.7+dfsg-3) unstable; urgency=medium
+
+  * Fix GitHub watchfile.
+  * B-D on pkgconf.
+
+ -- Christoph Berg <myon@debian.org>  Fri, 17 May 2024 11:18:44 +0200
+
+cubicsdr (0.2.7+dfsg-2) unstable; urgency=medium
+
+  * Move to libwxgtk3.2-dev. (Closes: #1019780)
+
+ -- Christoph Berg <myon@debian.org>  Sat, 17 Sep 2022 14:26:49 +0200
+
+cubicsdr (0.2.7+dfsg-1) unstable; urgency=low
+
+  [ Debian Janitor ]
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
+    Repository-Browse.
+  * Bump debhelper from old 12 to 13.
+  * Avoid explicitly specifying -Wl,--as-needed linker flag.
+
+  [ Daniele Forsi ]
+  * Update standards version to 4.6.0, no changes needed.
+
+  [ Christoph Berg ]
+  * New upstream version 0.2.7+dfsg.
+  * debian/watch: Add repacksuffix.
+
+ -- Christoph Berg <myon@debian.org>  Tue, 23 Aug 2022 13:49:31 +0200
+
+cubicsdr (0.2.5+dfsg-3) unstable; urgency=medium
+
+  * Cherry-pick patch from upstream to be compatible with liquid-dsp 1.3.2.
+
+ -- Christoph Berg <myon@debian.org>  Fri, 27 Dec 2019 16:15:09 +0100
+
+cubicsdr (0.2.5+dfsg-2) unstable; urgency=medium
+
+  * Rebuild against wxWidgets GTK 3 package. (Closes: #933474)
+  * Recommend soapysdr-module-all, we need at least one module.
+  * Add debian/gitlab-ci.yml.
+
+ -- Christoph Berg <myon@debian.org>  Wed, 25 Dec 2019 18:50:28 +0100
+
+cubicsdr (0.2.5+dfsg-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Use https for Homepage.
+  * Add myself to Uploaders.
+
+ -- Christoph Berg <myon@debian.org>  Sun, 16 Dec 2018 11:13:52 +0100
+
+cubicsdr (0.2.4+dfsg-1) unstable; urgency=medium
+
+  * New upstream version 0.2.4
+  * Add patch revert-migration-to-wx3.1 to revert upstream commit e46d7f973
+    to make it stay compatible with wxWidgets 3.0 available in Debian
+  * Set OpenGL_GL_PREFERENCE to GLVND so that cmake won't prefer legacy
+    OpenGL libraries
+  * Change Vcs-* fields in debian/control to the salsa repository addresses
+  * Bump Standards-Version to 4.1.4, no changes necessary
+  * Point Format: field in debian/copyright at https URL
+
+ -- Andreas Bombe <aeb@debian.org>  Mon, 11 Jun 2018 23:18:44 +0200
+
+cubicsdr (0.2.3+dfsg-1) unstable; urgency=medium
+
+  * New upstream version 0.2.3
+  * Increase debhelper compat level to 11
+  * Bump Standards-Version to 4.1.3, no changes necessary
+
+ -- Andreas Bombe <aeb@debian.org>  Thu, 25 Jan 2018 02:14:54 +0100
+
+cubicsdr (0.2.2+dfsg-1) unstable; urgency=medium
+
+  * New upstream version 0.2.2
+  * Add copyright and license for external/rs232 to debian/copyright
+  * Change Homepage field to new address (cubicsdr.com instead of .org)
+  * Bump Standards-Version to 4.0.1, no changes necessary
+
+ -- Andreas Bombe <aeb@debian.org>  Mon, 21 Aug 2017 20:49:38 +0200
+
+cubicsdr (0.2.0+git20170310+dfsg-2) unstable; urgency=medium
+
+  * Link to libatomic (Closes: #859616)
+
+ -- Andreas Bombe <aeb@debian.org>  Thu, 06 Apr 2017 15:11:38 +0200
+
+cubicsdr (0.2.0+git20170310+dfsg-1) unstable; urgency=medium
+
+  * Initial release (Closes: #829516)
+
+ -- Andreas Bombe <aeb@debian.org>  Fri, 17 Mar 2017 23:06:12 +0100

@@ -1,0 +1,58 @@
+.\" cubicsdr.1 - manpage for CubicSDR
+.\" Copyright (C) 2017  Andreas Bombe <aeb@debian.org>
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program; if not, write to the Free Software Foundation, Inc.,
+.\" 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" On Debian systems, the complete text of the GNU General Public License
+.\" version 2 can be found in /usr/share/common-licenses/GPL-2.
+.TH CUBICSDR 1 2017\-03\-16 "CubicSDR 0.2.0"
+.\" ----------------------------------------------------------------------------
+.SH NAME
+\fBCubicSDR\fR \- Software Defined Radio Application
+.\" ----------------------------------------------------------------------------
+.SH DESCRIPTION
+\fBCubicSDR\fR is a cross-platform Software Defined Radio application which
+allows you to navigate the radio spectrum and demodulate any signals you might
+discover.
+It currently includes several common analog demodulation schemes such as AM and
+FM and will support digital modes in the future.
+SDR hardware is accessed through \fBSoapySDR\fR and therefore any hardware for
+which a \fBSoapySDR\fR module exists can be used as a receiver with
+\fBCubicSDR\fR.
+.\" ----------------------------------------------------------------------------
+.SH OPTIONS
+.IP "\fB\-c\fR, \fB\-\-config\fR=\fINAME\fR" 4
+Use configuration \fINAME\fR instead of the default.
+.IP "\fB\-m\fR, \fB\-\-modpath\fR=\fIPATH\fR" 4
+Instruct \fBSoapySDR\fR to load modules from \fIPATH\fR instead of the default
+system location.
+.IP "\fB\-\-help\fR" 4
+Display command line parameter help and exit.
+.\" ----------------------------------------------------------------------------
+.SH SEE ALSO
+.UR http://cubicsdr.readthedocs.io/
+CubicSDR \- The Manual
+.UE
+.\" ----------------------------------------------------------------------------
+.SH HOMEPAGE
+.UR http://cubicsdr.com/
+CubicSDR
+.UE
+.\" ----------------------------------------------------------------------------
+.SH AUTHORS
+The principal authors of \fBCubicSDR\fR are Charles J. Cliffe and Vincent
+Sonnier.
+This manual page was written by Andreas Bombe for the Debian project (but may be
+used by others).

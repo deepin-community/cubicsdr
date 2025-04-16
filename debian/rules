@@ -1,4 +1,11 @@
 #!/usr/bin/make -f
 
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+
 %:
-	dh $@
+	dh ${@} --buildsystem=cmake
+
+override_dh_auto_configure:
+	dh_auto_configure -- -DUSE_HAMLIB=ON -DUSE_SYSTEM_RTAUDIO=ON \
+		-DOpenGL_GL_PREFERENCE=GLVND

@@ -1,0 +1,40 @@
+Description: Use system libtinyxml instead of embedded copy
+ Edit the cmake script to use the system installed libtinyxml instead of
+ the (removed in Debian) embedded copy.
+Author: Andreas Bombe <aeb@debian.org>
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -149,6 +149,11 @@
+     SET( EX_PLATFORM_NAME "x86" )
+ endif( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+ 
++find_package(PkgConfig REQUIRED)
++pkg_check_modules(TIXML REQUIRED tinyxml)
++include_directories(${TIXML_INCLUDE_DIRS})
++SET(OTHER_LIBRARIES ${OTHER_LIBRARIES} ${TIXML_LIBRARIES})
++
+ 
+ SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${EX_PLATFORM_NAME})
+ SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_BINARY_DIR}/${EX_PLATFORM_NAME})
+@@ -395,10 +400,6 @@
+     src/forms/Dialog/AboutDialogBase.cpp
+     src/forms/Dialog/AboutDialog.cpp
+     external/lodepng/lodepng.cpp
+-    external/tinyxml/tinyxml.cpp
+-    external/tinyxml/tinystr.cpp
+-    external/tinyxml/tinyxmlparser.cpp
+-    external/tinyxml/tinyxmlerror.cpp
+     external/cubicvr2/math/cubic_math.cpp
+ )
+ 
+@@ -506,8 +507,6 @@
+     src/forms/Dialog/AboutDialogBase.h
+     src/forms/Dialog/AboutDialog.h
+     external/lodepng/lodepng.h
+-    external/tinyxml/tinyxml.h
+-    external/tinyxml/tinystr.h
+     external/cubicvr2/math/aabb.h
+     external/cubicvr2/math/cubic_math.h
+     external/cubicvr2/math/cubic_types.h

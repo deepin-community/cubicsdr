@@ -1,0 +1,70 @@
+Non-external, non-windows bits from liquid-dsp 8edd8a77dc1ea74d70e44fc29de11a7f70141073..d43f30f0c74118d7f6814b6cfb52abcc3bfb4bcb
+
+diff --git a/src/modules/modem/analog/ModemAM.cpp b/src/modules/modem/analog/ModemAM.cpp
+index 5c3604f..8d1d167 100644
+--- a/src/modules/modem/analog/ModemAM.cpp
++++ b/src/modules/modem/analog/ModemAM.cpp
+@@ -4,7 +4,7 @@
+ #include "ModemAM.h"
+ 
+ ModemAM::ModemAM() : ModemAnalog() {
+-    demodAM = ampmodem_create(0.5, 0.0, LIQUID_AMPMODEM_DSB, 0);
++    demodAM = ampmodem_create(0.5, LIQUID_AMPMODEM_DSB, 0);
+     useSignalOutput(true);
+ }
+ 
+diff --git a/src/modules/modem/analog/ModemDSB.cpp b/src/modules/modem/analog/ModemDSB.cpp
+index 4c69c12..298b1d1 100644
+--- a/src/modules/modem/analog/ModemDSB.cpp
++++ b/src/modules/modem/analog/ModemDSB.cpp
+@@ -4,7 +4,7 @@
+ #include "ModemDSB.h"
+ 
+ ModemDSB::ModemDSB() : ModemAnalog() {
+-    demodAM_DSB = ampmodem_create(0.5, 0.0, LIQUID_AMPMODEM_DSB, 1);
++    demodAM_DSB = ampmodem_create(0.5, LIQUID_AMPMODEM_DSB, 1);
+     useSignalOutput(true);
+ }
+ 
+diff --git a/src/modules/modem/analog/ModemFMStereo.cpp b/src/modules/modem/analog/ModemFMStereo.cpp
+index e84c49b..6d37a67 100644
+--- a/src/modules/modem/analog/ModemFMStereo.cpp
++++ b/src/modules/modem/analog/ModemFMStereo.cpp
+@@ -239,7 +239,8 @@ void ModemFMStereo::demodulate(ModemKit *kit, ModemIQData *input, AudioThreadInp
+         nco_crcf_mix_down(fmkit->stereoPilot, y, &x);
+         
+         // complex -> real
+-        firhilbf_c2r_execute(fmkit->firStereoC2R, x, &demodStereoData[i]);
++        float usb_discard;
++        firhilbf_c2r_execute(fmkit->firStereoC2R, x, &demodStereoData[i], &usb_discard);
+     }
+     
+     //            std::cout << "[PLL] phase error: " << phase_error;
+diff --git a/src/modules/modem/analog/ModemLSB.cpp b/src/modules/modem/analog/ModemLSB.cpp
+index c3fb76d..bc417b4 100644
+--- a/src/modules/modem/analog/ModemLSB.cpp
++++ b/src/modules/modem/analog/ModemLSB.cpp
+@@ -56,7 +56,8 @@ void ModemLSB::demodulate(ModemKit *kit, ModemIQData *input, AudioThreadInput *a
+         nco_crcf_mix_up(ssbShift, input->data[i], &x);
+ 		iirfilt_crcf_execute(ssbFilt, x, &y);
+         nco_crcf_mix_down(ssbShift, y, &x);
+-        firhilbf_c2r_execute(c2rFilt, x, &demodOutputData[i]);
++        float usb_discard;
++        firhilbf_c2r_execute(c2rFilt, x, &demodOutputData[i], &usb_discard);
+     }
+     
+     buildAudioOutput(akit, audioOut, true);
+diff --git a/src/modules/modem/analog/ModemUSB.cpp b/src/modules/modem/analog/ModemUSB.cpp
+index 8b30761..940cbb3 100644
+--- a/src/modules/modem/analog/ModemUSB.cpp
++++ b/src/modules/modem/analog/ModemUSB.cpp
+@@ -56,7 +56,8 @@ void ModemUSB::demodulate(ModemKit *kit, ModemIQData *input, AudioThreadInput *a
+         nco_crcf_mix_down(ssbShift, input->data[i], &x);
+ 		iirfilt_crcf_execute(ssbFilt, x, &y);
+ 		nco_crcf_mix_up(ssbShift, y, &x);
+-        firhilbf_c2r_execute(c2rFilt, x, &demodOutputData[i]);
++        float lsb_discard;
++        firhilbf_c2r_execute(c2rFilt, x, &lsb_discard, &demodOutputData[i]);
+     }
+     
+     buildAudioOutput(akit, audioOut, true);

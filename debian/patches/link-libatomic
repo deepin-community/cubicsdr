@@ -1,0 +1,18 @@
+Description: Link libatomic
+ Some architectures do not have builtin atomic support in the compiler
+ and/or do not automatically link libatomic. This patch simply adds
+ unconditional linking to libatomic.
+Author: Andreas Bombe <aeb@debian.org>
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -679,7 +679,7 @@
+         configure_files(${CUBICSDR_HEADER_IMAGE_DIR} ${CMAKE_BINARY_DIR}/${EX_PLATFORM_NAME} ${CUBICSDR_HEADER_IMAGE_FILE})
+     ENDIF()
+     add_executable(CubicSDR ${cubicsdr_sources} ${cubicsdr_headers} ${RES_FILES})
+-    target_link_libraries(CubicSDR ${LIQUID_LIB} ${wxWidgets_LIBRARIES} ${OPENGL_LIBRARIES} ${OTHER_LIBRARIES})
++    target_link_libraries(CubicSDR ${LIQUID_LIB} ${wxWidgets_LIBRARIES} ${OPENGL_LIBRARIES} ${OTHER_LIBRARIES} -latomic)
+ ENDIF (NOT BUNDLE_APP)
+ 
+ IF (MSVC)
